@@ -10,7 +10,7 @@ unitTest()
 a List containing, number of tests run, number of failures, and any error messages.
 }
 \description{
-Note: Unit tests are only enabled when the package is compiled with the UNIT_TEST flag (see Makevars)
+Entry point to enable running unit tests within R (e.g. in testthat)
 }
 \examples{
 unitTest()

@@ -1,5 +1,3 @@
-#ifdef UNIT_TEST
-
 #include "UnitTester.h"
 
 #include "NDArray.h"
@@ -42,5 +40,3 @@ void unittest::testReduce()
     CHECK_THROWS(reduce(a3,17), std::runtime_error);
   }
 }
-
-#endif

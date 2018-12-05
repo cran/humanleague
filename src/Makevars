@@ -7,5 +7,4 @@
 ## But for standard builds without external dependencies, nothing is needed
 CXX_STD=CXX11
 PKG_CXXFLAGS=
-##-DUNIT_TEST
 PKG_LIBS=

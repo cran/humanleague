@@ -1,5 +1,3 @@
-#ifdef UNIT_TEST
-
 #include "UnitTester.h"
 
 #include "NDArray.h"
@@ -18,7 +16,7 @@ void unittest::testSlice()
     CHECK_EQUAL(s00[  i00], 0);
     CHECK_EQUAL(s00[++i00], 1);
     CHECK_EQUAL(s00[++i00], 2);
-
+    
     const NDArray<int64_t>& s01 = slice(a2, {0,1});
     Index i01(s01.sizes());
     CHECK_EQUAL(s01[  i01], 10);
@@ -73,18 +71,18 @@ void unittest::testSlice()
 
     const NDArray<int64_t>& s20 = slice(a3, {2,0});
     Index i20(s20.sizes());
-    CHECK_EQUAL(s20[  i20],   0); CHECK_EQUAL(s20[++i20],  10); CHECK_EQUAL(s20[++i20],  20);
-    CHECK_EQUAL(s20[++i20], 100); CHECK_EQUAL(s20[++i20], 110); CHECK_EQUAL(s20[++i20], 120);
+    CHECK_EQUAL(s20[  i20],   0); CHECK_EQUAL(s20[++i20],  10); CHECK_EQUAL(s20[++i20],  20); 
+    CHECK_EQUAL(s20[++i20], 100); CHECK_EQUAL(s20[++i20], 110); CHECK_EQUAL(s20[++i20], 120); 
 
     const NDArray<int64_t>& s22 = slice(a3, {2,2});
     Index i22(s22.sizes());
-    CHECK_EQUAL(s22[  i22],   2); CHECK_EQUAL(s22[++i22],  12); CHECK_EQUAL(s22[++i22],  22);
-    CHECK_EQUAL(s22[++i22], 102); CHECK_EQUAL(s22[++i22], 112); CHECK_EQUAL(s22[++i22], 122);
+    CHECK_EQUAL(s22[  i22],   2); CHECK_EQUAL(s22[++i22],  12); CHECK_EQUAL(s22[++i22],  22); 
+    CHECK_EQUAL(s22[++i22], 102); CHECK_EQUAL(s22[++i22], 112); CHECK_EQUAL(s22[++i22], 122); 
 
     const NDArray<int64_t>& s24 = slice(a3, {2,4});
     Index i24(s24.sizes());
-    CHECK_EQUAL(s24[  i24],   4); CHECK_EQUAL(s24[++i24],  14); CHECK_EQUAL(s24[++i24],  24);
-    CHECK_EQUAL(s24[++i24], 104); CHECK_EQUAL(s24[++i24], 114); CHECK_EQUAL(s24[++i24], 124);
+    CHECK_EQUAL(s24[  i24],   4); CHECK_EQUAL(s24[++i24],  14); CHECK_EQUAL(s24[++i24],  24); 
+    CHECK_EQUAL(s24[++i24], 104); CHECK_EQUAL(s24[++i24], 114); CHECK_EQUAL(s24[++i24], 124); 
   }
 
   {
@@ -94,48 +92,48 @@ void unittest::testSlice()
     // Slice with dim 0 fixed at 0 and dim 1 fixed at 0
     const NDArray<int64_t>& s00_10 = slice(a3, std::vector<std::pair<int64_t, int64_t>>({{0,0},{1,0}}));
     Index i00_10(s00_10.sizes());
-    CHECK_EQUAL(s00_10[  i00_10],   0);
-    CHECK_EQUAL(s00_10[++i00_10],   1);
-    CHECK_EQUAL(s00_10[++i00_10],   2);
-    CHECK_EQUAL(s00_10[++i00_10],   3);
-    CHECK_EQUAL(s00_10[++i00_10],   4);
+    CHECK_EQUAL(s00_10[  i00_10],   0); 
+    CHECK_EQUAL(s00_10[++i00_10],   1); 
+    CHECK_EQUAL(s00_10[++i00_10],   2); 
+    CHECK_EQUAL(s00_10[++i00_10],   3); 
+    CHECK_EQUAL(s00_10[++i00_10],   4); 
     ++i00_10;
     CHECK(i00_10.end());
     i00_10.reset();
-    CHECK_EQUAL(s00_10[  i00_10],   0);
-    CHECK_EQUAL(s00_10[++i00_10],   1);
-    CHECK_EQUAL(s00_10[++i00_10],   2);
-    CHECK_EQUAL(s00_10[++i00_10],   3);
-    CHECK_EQUAL(s00_10[++i00_10],   4);
+    CHECK_EQUAL(s00_10[  i00_10],   0); 
+    CHECK_EQUAL(s00_10[++i00_10],   1); 
+    CHECK_EQUAL(s00_10[++i00_10],   2); 
+    CHECK_EQUAL(s00_10[++i00_10],   3); 
+    CHECK_EQUAL(s00_10[++i00_10],   4); 
     ++i00_10;
     CHECK(i00_10.end());
-
+    
 
     const NDArray<int64_t>& s01_11 = slice(a3, std::vector<std::pair<int64_t, int64_t>>({{0,1},{1,1}}));
     Index i01_11(s01_11.sizes());
-    CHECK_EQUAL(s01_11[  i01_11],   110);
-    CHECK_EQUAL(s01_11[++i01_11],   111);
-    CHECK_EQUAL(s01_11[++i01_11],   112);
-    CHECK_EQUAL(s01_11[++i01_11],   113);
-    CHECK_EQUAL(s01_11[++i01_11],   114);
+    CHECK_EQUAL(s01_11[  i01_11],   110); 
+    CHECK_EQUAL(s01_11[++i01_11],   111); 
+    CHECK_EQUAL(s01_11[++i01_11],   112); 
+    CHECK_EQUAL(s01_11[++i01_11],   113); 
+    CHECK_EQUAL(s01_11[++i01_11],   114); 
     ++i01_11;
     CHECK(i01_11.end());
 
     const NDArray<int64_t>& s23_12 = slice(a3, std::vector<std::pair<int64_t, int64_t>>({{2,3},{1,2}}));
     Index i23_12(s23_12.sizes());
-    CHECK_EQUAL(s23_12[  i23_12],    23);
-    CHECK_EQUAL(s23_12[++i23_12],   123);
+    CHECK_EQUAL(s23_12[  i23_12],    23); 
+    CHECK_EQUAL(s23_12[++i23_12],   123); 
     ++i23_12;
     CHECK(i23_12.end());
     i23_12.reset();
-    CHECK_EQUAL(s23_12[  i23_12],    23);
-    CHECK_EQUAL(s23_12[++i23_12],   123);
+    CHECK_EQUAL(s23_12[  i23_12],    23); 
+    CHECK_EQUAL(s23_12[++i23_12],   123); 
 
     // index out of bounds
     CHECK_THROWS(slice(a3, std::vector<std::pair<int64_t, int64_t>>({{2,3},{1,3}})), std::runtime_error);
     // dimension out of bounds
     CHECK_THROWS(slice(a3, std::vector<std::pair<int64_t, int64_t>>({{2,3},{3,2}})), std::runtime_error);
   }
-}
 
-#endif
+
+}

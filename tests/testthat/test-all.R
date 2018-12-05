@@ -2,10 +2,10 @@
 
 context("humanleague")
 
-# Unit test harness (only runs when compiled with UNIT_TEST flag)
+# Unit test harness
 test_that("unit tests", {
   result = humanleague::unitTest()
-  #expect_gt(result$nTests, 0)
+  expect_gt(result$nTests, 0)
   expect_equal(result$nFails, 0)
   if (result$nFails) {
     print(result$errors)
@@ -550,62 +550,42 @@ makeConstraint = function(r, b) {
   return(p);
 }
 
-test_that("legacy - basic functionality", {
-  r = c(0, 3, 17, 124, 167, 79, 46, 22)
-  b = c(0, 15, 165, 238, 33, 7)
-  res = humanleague::synthPop(list(r,b))
-  expect_equal(res$conv, TRUE)
-  expect_equal(rowSums(res$x.hat), r)
-  expect_equal(colSums(res$x.hat), b)
+
+##### Marginal/population integerisation tests
+
+test_that("integerise non integral population", {
+  r=array(c(1.1, 1, 1, 1), dim=c(2,2))
+
+  expect_error(humanleague::integerise(r))
 })
 
-test_that("legacy - constrained2", {
-  r = c( 1, 1, 8, 3,84, 21, 4, 4, 1)
-  b = c( 0, 8, 3, 113, 2, 1)
-  res = humanleague::synthPopG(list(r,b),makeConstraint(r,b))
-  expect_equal(res$conv, TRUE)
-  expect_equal(rowSums(res$x.hat), r)
-  expect_equal(colSums(res$x.hat), b)
+test_that("integerise non integral marginal", {
+  r=array(c(1.1, 0.9, 1, 1), dim=c(2,2))
+
+  expect_error(humanleague::integerise(r))
 })
 
-test_that("legacy - constrained1", {
- r = c(0, 3, 17, 124, 167, 79, 46, 22)
- b = c(0, 15, 165, 238, 33, 7)
- res = humanleague::synthPopG(list(r,b),makeConstraint(r,b))
- expect_equal(res$conv, TRUE)
- expect_equal(rowSums(res$x.hat), r)
- expect_equal(colSums(res$x.hat), b)
+test_that("integerise no-op", {
+  r=array(c(1, 1, 1, 1), dim=c(2,2))
+  res = humanleague::integerise(r)
+  expect_true(res$conv)
+  expect_equal(res$rmse, 0.0)
 })
 
-test_that("legacy - constrained2", {
-  r = c( 1, 1, 8, 3,84, 21, 4, 4, 1)
-  b = c( 0, 8, 3, 113, 2, 1)
-  res = humanleague::synthPopG(list(r,b),makeConstraint(r,b))
-  expect_equal(res$conv, TRUE)
-  expect_equal(rowSums(res$x.hat), r)
-  expect_equal(colSums(res$x.hat), b)
+test_that("integerise", {
+  m0 = c(111,112,113,114,110)
+  m1 = c(136,142,143,139)
+  s = array(rep(1, length(m0)*length(m1)),  dim=c(length(m0),length(m1)))
+
+  fpop = humanleague::ipf(s, list(1,2),list(m0,m1))$result
+  #print(fpop)
+
+  result = humanleague::integerise(fpop)
+  #print(result$result)
+  expect_true(result$conv)
+  expect_equal(sum(result$result), sum(m0))
+  expect_lt(result$rmse, 0.8772)
 })
-
-test_that("legacy - constrained3", {
-  r = c( 1, 3, 7, 19, 96, 4, 5, 1, 1)
-  b = c( 0, 7, 21, 109, 0, 0)
-  res = humanleague::synthPopG(list(r,b),makeConstraint(r,b))
-  expect_equal(res$conv, TRUE)
-  expect_equal(rowSums(res$x.hat), r)
-  expect_equal(colSums(res$x.hat), b)
-})
-
-test_that("legacy - constrained4", {
-  r = c( 1, 1, 12, 43, 45, 1, 6, 0, 2)
-  b = c( 0, 7, 46, 54, 1, 3)
-  res = humanleague::synthPopG(list(r,b),makeConstraint(r,b))
-  expect_equal(res$conv, TRUE)
-  expect_equal(rowSums(res$x.hat), r)
-  expect_equal(colSums(res$x.hat), b)
-})
-
-
-##### Marginal integerisation tests
 
 test_that("population must be positive", {
   expect_error(humanleague::prob2IntFreq(c(0.5,0.5), -100))
@@ -615,22 +595,29 @@ test_that("probabilities must sum to zero", {
   expect_error(humanleague::prob2IntFreq(c(0.5,0.4999), 100))
 })
 
+test_that("population zero returns a zero array (and zero var)", {
+  res = humanleague::prob2IntFreq(c(0.5,0.4,0.1), 0)
+  expect_equal(res$rmse, 0.0)
+  expect_equal(length(res$freq), 3)
+  expect_equal(unique(res$freq), 0)
+})
+
 test_that("simple1", {
   res<-humanleague::prob2IntFreq(c(0.1,0.2,0.3,0.4), 10)
   expect_equal(res$freq, c(1,2,3,4))
-  expect_equal(res$var, 0)
+  expect_equal(res$rmse, 0)
 })
 
 test_that("simple2", {
   res<-humanleague::prob2IntFreq(c(0.1,0.2,0.3,0.4), 11)
   expect_equal(res$freq, c(1,2,3,5))
-  expect_equal(res$var, 0.125)
+  expect_equal(res$rmse, sqrt(0.125))
 })
 
 test_that("degenerate", {
   res<-humanleague::prob2IntFreq(c(0.2,0.2,0.2,0.2,0.2), 11)
   expect_equal(res$freq, c(3,2,2,2,2))
-  expect_equal(res$var, 0.16)
+  expect_equal(res$rmse, 0.4)
 })
 
 ###### Sobol sequence tests

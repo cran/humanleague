@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-import humanleague as hl
 import numpy as np
+import humanleague as hl
 
-from unittest import TestCase
+import unittest
 
-class Test(TestCase):
+class Test(unittest.TestCase):
 
   def test_unittest(self):
     res = hl.unittest()
@@ -15,7 +15,7 @@ class Test(TestCase):
 
   def test_apitest(self):
     res = hl.apitest()
-    print(res)
+    #print("api test: ", res)
     self.assertTrue(res is None)
 
   def test_sobolSequence(self):
@@ -24,30 +24,6 @@ class Test(TestCase):
     self.assertTrue(a.shape == (5, 3))
     self.assertTrue(np.array_equal(a[0, :], [0.5, 0.5, 0.5]))
 
-  def test_synthPop(self):
-
-    p = hl.synthPop([np.array([4, 2]), np.array([1, 2, 3])])
-    print(p)
-    self.assertTrue(p["conv"])
-
-    p = hl.synthPop([np.array([4, 1]), np.array([1, 2, 3])])
-    self.assertTrue(p == "invalid marginals")
-
-    p = hl.synthPop([[4, 2], [1, 2, 3]])
-    self.assertTrue(p == "input should be a list of numpy integer arrays")
-
-    p = hl.synthPop([np.array([1.0]), np.array([1, 2, 3, 4, 5, 6])])
-    self.assertTrue(p == 'python array contains invalid type: 12 when expecting 7')
-
-    p = hl.synthPop([np.array([4, 2]), np.array([1, 2, 3]), np.array([3, 3])])
-    self.assertTrue(p["conv"])
-
-  def test_synthPopG(self):
-
-    p = hl.synthPopG(np.array([4, 2]), np.array([1, 2, 3]), np.array([[1.0, 0.9, 0.8], [0.5, 0.6, 0.7]]))
-    self.assertTrue(p["conv"])
-    self.assertTrue(p["pop"] == 6)
-
   def test_integerise(self):
 
     # probs not valid
@@ -55,18 +31,49 @@ class Test(TestCase):
     self.assertTrue(r == "probabilities do not sum to unity")
 
     # pop not valid
+    r = hl.prob2IntFreq(np.array([0.4, 0.3, 0.2, 0.1]), -1)
+    self.assertTrue(r == "population cannot be negative")
+
+    # zero pop
     r = hl.prob2IntFreq(np.array([0.4, 0.3, 0.2, 0.1]), 0)
-    self.assertTrue(r == "population must be strictly positive")
+    self.assertTrue(r["rmse"] == 0.0)
+    self.assertTrue(np.array_equal(r["freq"], np.array([0, 0, 0, 0])))
 
     # exact
     r = hl.prob2IntFreq(np.array([0.4, 0.3, 0.2, 0.1]), 10)
-    self.assertTrue(r["var"] == 0.0)
+    self.assertTrue(r["rmse"] == 0.0)
     self.assertTrue(np.array_equal(r["freq"], np.array([4, 3, 2, 1])))
 
     # inexact
     r = hl.prob2IntFreq(np.array([0.4, 0.3, 0.2, 0.1]), 17)
-    self.assertAlmostEqual(r["var"], 0.075)
+    self.assertAlmostEqual(r["rmse"], np.sqrt(0.075))
     self.assertTrue(np.array_equal(r["freq"], np.array([7, 5, 3, 2])))
+
+    # 1-d case
+    r = hl.integerise(np.array([2.0, 1.5, 1.0, 0.5]))
+    self.assertTrue(r["conv"])
+
+    # multidim integerisation 
+    # invalid population
+    s = np.array([[1.1, 1.0], [1.0, 1.0]])
+    r = hl.integerise(s)
+    self.assertEqual(r, "Marginal or total value 4.100000 is not an integer (within tolerance 0.000100)")
+    # invalid marginals
+    s = np.array([[1.1, 1.0], [0.9, 1.0]])
+    r = hl.integerise(s)
+    self.assertEqual(r, "Marginal or total value 2.100000 is not an integer (within tolerance 0.000100)")
+
+    # use IPF to generate a valid fractional population
+    m0 = np.array([111,112,113,114,110], dtype=float)
+    m1 = np.array([136,142,143,139], dtype=float)
+    s = np.ones([len(m0),len(m1),len(m0)])
+
+    fpop = hl.ipf(s, [np.array([0]),np.array([1]),np.array([2])], [m0,m1,m0])["result"]
+
+    result = hl.integerise(fpop)
+    self.assertTrue(result["conv"])
+    self.assertEqual(np.sum(result["result"]), sum(m0))
+    self.assertTrue(result["rmse"] < 1.05717) 
 
   def test_IPF(self):
     m0 = np.array([52.0, 48.0])
@@ -93,9 +100,9 @@ class Test(TestCase):
     i = [np.array([0]),np.array([1]),np.array([2])]
     s = np.array([[[1.0, 1.0], [1.0, 1.0]], [[1.0, 1.0], [1.0, 1.0]]])
     p = hl.ipf(s, i, [m0, m1, m2])
-    print(np.sum(p["result"], (0, 1)))
-    print(np.sum(p["result"], (1, 2)))
-    print(np.sum(p["result"], (2, 0)))
+    #print(np.sum(p["result"], (0, 1)))
+    #print(np.sum(p["result"], (1, 2)))
+    #print(np.sum(p["result"], (2, 0)))
     self.assertTrue(p["conv"])
     # check overall population and marginals correct
     self.assertAlmostEqual(np.sum(p["result"]), p["pop"]) # default is 7d.p.
@@ -137,9 +144,9 @@ class Test(TestCase):
 
     s = np.array([[[1.0, 1.0], [1.0, 1.0]], [[1.0, 1.0], [1.0, 1.0]]])
     p = hl.ipf(s, [np.array([0]),np.array([1]),np.array([2])], [m0, m1, m2])
-    print(np.sum(p["result"], (0, 1)))
-    print(np.sum(p["result"], (1, 2)))
-    print(np.sum(p["result"], (2, 0)))
+    #print(np.sum(p["result"], (0, 1)))
+    #print(np.sum(p["result"], (1, 2)))
+    #print(np.sum(p["result"], (2, 0)))
     self.assertTrue(p["conv"])
     # check overall population and marginals correct
     self.assertAlmostEqual(np.sum(p["result"]), p["pop"]) # default is 7d.p.
@@ -167,7 +174,7 @@ class Test(TestCase):
     i1 = np.array([1])
 
     p = hl.qis([i0, i1], [m0, m1])
-    print(p)
+    #print(p)
     self.assertTrue(p["conv"])
     self.assertLess(p["chiSq"], 0.04) 
     self.assertGreater(p["pValue"], 0.9) 
@@ -236,7 +243,7 @@ class Test(TestCase):
     self.assertLess(p["chiSq"], 10) 
     self.assertGreater(p["pValue"], 0.27) 
     self.assertEqual(p["pop"], 120)
-    print(np.sum(p["result"], 2))
+    #print(np.sum(p["result"], 2))
     self.assertTrue(np.allclose(np.sum(p["result"], 2), m))
     self.assertTrue(np.allclose(np.sum(p["result"], 0), m))
 
@@ -266,7 +273,7 @@ class Test(TestCase):
     s = np.ones([len(m0), len(m1)])
 
     p = hl.qisi(s, [i0, i1], [m0, m1])
-    print(p)
+    #print(p)
     self.assertTrue(p["conv"])
     self.assertLess(p["chiSq"], 0.04) 
     self.assertGreater(p["pValue"], 0.9) 
@@ -312,3 +319,24 @@ class Test(TestCase):
     self.assertTrue(np.allclose(np.sum(p["result"], (1, 2, 3)), m0))
     self.assertTrue(np.allclose(np.sum(p["result"], (2, 3, 0)), m1))
     self.assertTrue(np.allclose(np.sum(p["result"], (3, 0, 1)), m2))
+
+    # check dimension consistency check works
+    s = np.ones([2,3,7,5])
+    m1 = np.ones([2,3], dtype=int) * 5 * 7
+    m2 = np.ones([3,5], dtype=int) * 7 * 2
+    m3 = np.ones([5,7], dtype=int) * 2 * 3
+    p = hl.qisi(s, [np.array([0,1]), np.array([1,2]), np.array([2,3])], [m1, m2, m3])
+    self.assertEqual(p, "seed dimensions [2, 3, 7, 5] are inconsistent with that implied by marginals ([2, 3, 5, 7])")
+
+    p = hl.ipf(s, [np.array([0,1]), np.array([1,2]), np.array([2,3])], [m1.astype(float), m2.astype(float), m3.astype(float)])
+    self.assertEqual(p, "seed dimensions [2, 3, 7, 5] are inconsistent with that implied by marginals ([2, 3, 5, 7])")
+
+    s = np.ones((2,3,5))
+    p = hl.qisi(s, [np.array([0,1]), np.array([1,2]), np.array([2,3])], [m1, m2, m3])
+    self.assertEqual(p, "seed dimensions 3 is inconsistent with that implied by marginals (4)")
+
+    p = hl.ipf(s, [np.array([0,1]), np.array([1,2]), np.array([2,3])], [m1.astype(float), m2.astype(float), m3.astype(float)])
+    self.assertEqual(p, "seed dimensions 3 is inconsistent with that implied by marginals (4)")
+
+if __name__ == "__main__":
+  unittest.main()

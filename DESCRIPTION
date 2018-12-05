@@ -1,7 +1,7 @@
 Package: humanleague
 Type: Package
 Title: Synthetic Population Generator
-Version: 2.0.2
+Version: 2.1.0
 Description: Generates high-entropy integer synthetic populations from marginal and (optionally) seed data using quasirandom sampling, 
   in arbitrary dimensionality (Smith, Lovelace and Birkin (2017) <doi:10.18564/jasss.3550>). 
   The package also provides an implementation of the Iterative Proportional Fitting (IPF) algorithm (Zaloznik (2011) <doi:10.13140/2.1.2480.9923>).
@@ -14,12 +14,12 @@ Authors@R: c(
 License: MIT + file LICENCE
 Encoding: UTF-8
 LazyData: true
-Imports: Rcpp (>= 0.12.8), curl
+Imports: Rcpp (>= 0.12.8)
 LinkingTo: Rcpp
 RoxygenNote: 6.0.1
 Suggests: testthat
 NeedsCompilation: yes
-Packaged: 2017-12-14 13:39:34 UTC; az
+Packaged: 2018-12-05 09:27:47 UTC; az
 Author: Andrew Smith [aut, cre],
   Steven Johnson [ctb] (Sobol sequence generator implementation),
   Massachusetts Institute of Technology [cph] (Sobol sequence generator
@@ -30,4 +30,4 @@ Author: Andrew Smith [aut, cre],
     gamma function)
 Maintainer: Andrew Smith <a.p.smith@leeds.ac.uk>
 Repository: CRAN
-Date/Publication: 2017-12-14 16:10:31 UTC
+Date/Publication: 2018-12-05 11:40:03 UTC

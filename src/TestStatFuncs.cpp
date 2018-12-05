@@ -1,4 +1,3 @@
-#ifdef UNIT_TEST
 
 #include "UnitTester.h"
 
@@ -51,7 +50,7 @@ void unittest::testCumNorm()
   }
   for (double x = 0.01; x <= 0.99; x += 0.01)
   {
-    CHECK(withinTolerance(x, cumNorm(invCumNorm(x)), std::numeric_limits<double>::epsilon() * 10));
+    CHECK(withinTolerance(x, cumNorm(invCumNorm(x)), std::numeric_limits<double>::epsilon() * 32));
   }
 }
 
@@ -107,4 +106,3 @@ void unittest::testPValue()
 
   CHECK(withinTolerance(pValue(255, 290.285192).first, 0.0636423, 1e-6));
 }
-#endif

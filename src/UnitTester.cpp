@@ -1,8 +1,7 @@
 
-#ifdef UNIT_TEST
-
 #include "UnitTester.h"
 
+//#include <Rcpp.h>
 #include <cmath>
 
 void unittest::Logger::reset()
@@ -41,14 +40,11 @@ const unittest::Logger& unittest::run()
   // UNHANDLED_ERROR();
 
   // call test functions
-  //testConstrainedSampling();
   testNDArray();
   testSobol();
-  //testDDWR();
   testCumNorm();
   testCholesky();
   testPValue();
-  testQIWS();
 
   testIndex();
   testSlice();
@@ -56,5 +52,3 @@ const unittest::Logger& unittest::run()
 
   return Global::instance<Logger>();
 }
-
-#endif

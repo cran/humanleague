@@ -1,6 +1,4 @@
 
-#ifdef UNIT_TEST
-
 #include "UnitTester.h"
 #include "NDArray.h"
 #include "Index.h"
@@ -88,4 +86,3 @@ void unittest::testNDArray()
   // old::NDArray<10, uint32_t> multid(&m[0]);
 };
 
-#endif

@@ -1,5 +1,3 @@
-#ifdef UNIT_TEST
-
 #include "UnitTester.h"
 #include "NDArray.h"
 #include "NDArrayUtils.h"
@@ -9,7 +7,7 @@
 
 void unittest::testIndex()
 {
-  // Full index tests
+  // Full index tests 
   int64_t values2[] = {0,1,2, 10,11,12};
   NDArray<int64_t> a2({2,3}, values2);
   for (Index index2(a2.sizes()); !index2.end(); ++index2)
@@ -19,7 +17,7 @@ void unittest::testIndex()
 
   int64_t values3[] = {0,1,2,3,4, 10,11,12,13,14, 20,21,22,23,24, 100,101,102,103,104, 110,111,112,113,114, 120,121,122,123,124};
   NDArray<int64_t> a3({2,3,5}, values3);
-
+  
   for (Index index3(a3.sizes()); !index3.end(); ++index3)
   {
     CHECK_EQUAL(a3[index3], index3[0] * 100 + index3[1] * 10 + index3[2]);
@@ -60,11 +58,11 @@ void unittest::testIndex()
     }
     // check 0,1,2,10,11,12 -> 0,10,1,11,2,12
     //{0,1,2,3,4, 10,11,12,13,14, 20,21,22,23,24, 100,101,102,103,104, 110,111,112,113,114, 120,121,122,123,124};
-    CHECK_EQUAL(valuest3[0], 0);   CHECK_EQUAL(valuest3[1], 100);
+    CHECK_EQUAL(valuest3[0], 0);   CHECK_EQUAL(valuest3[1], 100);    
     CHECK_EQUAL(valuest3[2], 10);  CHECK_EQUAL(valuest3[3], 110);
-    CHECK_EQUAL(valuest3[4], 20);  CHECK_EQUAL(valuest3[5], 120);
+    CHECK_EQUAL(valuest3[4], 20);  CHECK_EQUAL(valuest3[5], 120);    
     CHECK_EQUAL(valuest3[6], 1);   CHECK_EQUAL(valuest3[7], 101);
-    CHECK_EQUAL(valuest3[8], 11);  CHECK_EQUAL(valuest3[9], 111);
+    CHECK_EQUAL(valuest3[8], 11);  CHECK_EQUAL(valuest3[9], 111);    
     CHECK_EQUAL(valuest3[10], 21); CHECK_EQUAL(valuest3[11], 121);
     CHECK_EQUAL(valuest3[12], 2);  CHECK_EQUAL(valuest3[13], 102);
     CHECK_EQUAL(valuest3[14], 12); CHECK_EQUAL(valuest3[15], 112);
@@ -99,27 +97,27 @@ void unittest::testIndex()
   MappedIndex mindex21(index3, {2,1});
   for (; !index3.end(); ++index3)
   {
-    CHECK_EQUAL(index3[0], mindex0[0]);
-    CHECK_EQUAL(index3[1], mindex1[0]);
-    CHECK_EQUAL(index3[2], mindex2[0]);
+    CHECK_EQUAL(index3[0], mindex0[0]);    
+    CHECK_EQUAL(index3[1], mindex1[0]);    
+    CHECK_EQUAL(index3[2], mindex2[0]);    
 
-    CHECK_EQUAL(index3[0], mindex01[0]);
-    CHECK_EQUAL(index3[1], mindex01[1]);
+    CHECK_EQUAL(index3[0], mindex01[0]);    
+    CHECK_EQUAL(index3[1], mindex01[1]);    
 
-    CHECK_EQUAL(index3[0], mindex02[0]);
-    CHECK_EQUAL(index3[2], mindex02[1]);
+    CHECK_EQUAL(index3[0], mindex02[0]);    
+    CHECK_EQUAL(index3[2], mindex02[1]);    
 
-    CHECK_EQUAL(index3[1], mindex10[0]);
-    CHECK_EQUAL(index3[0], mindex10[1]);
+    CHECK_EQUAL(index3[1], mindex10[0]);    
+    CHECK_EQUAL(index3[0], mindex10[1]);    
 
-    CHECK_EQUAL(index3[1], mindex12[0]);
-    CHECK_EQUAL(index3[2], mindex12[1]);
+    CHECK_EQUAL(index3[1], mindex12[0]);    
+    CHECK_EQUAL(index3[2], mindex12[1]);    
 
-    CHECK_EQUAL(index3[2], mindex20[0]);
-    CHECK_EQUAL(index3[0], mindex20[1]);
+    CHECK_EQUAL(index3[2], mindex20[0]);    
+    CHECK_EQUAL(index3[0], mindex20[1]);    
 
-    CHECK_EQUAL(index3[2], mindex21[0]);
-    CHECK_EQUAL(index3[1], mindex21[1]);
+    CHECK_EQUAL(index3[2], mindex21[0]);    
+    CHECK_EQUAL(index3[1], mindex21[1]);    
   }
 
   // Fixed index tests (uses slice)
@@ -137,4 +135,3 @@ void unittest::testIndex()
       }
   }
 }
-#endif

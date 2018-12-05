@@ -1,4 +1,3 @@
-#ifdef UNIT_TEST
 
 #include "UnitTester.h"
 
@@ -20,7 +19,7 @@ void testSobol()
     Sobol s(dim);
     CHECK_EQUAL(s.min(), 0u);
     CHECK_EQUAL(s.max(), -1u); // -1ul fails on LP64
-
+    
     s.skip(12345);
     const std::vector<uint32_t>& b0 = s.buf();
     s.reset(12345);
@@ -57,4 +56,3 @@ void testSobol()
 };
 
 }
-#endif
