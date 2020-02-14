@@ -1,18 +1,25 @@
 # humanleague
 
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/humanleague)](https://CRAN.R-project.org/package=humanleague)
-[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/grand-total/humanleague?color=black)](https://cran.r-project.org/package=humanleague)
-[![PyPI version](https://badge.fury.io/py/humanleague.svg)](https://badge.fury.io/py/humanleague)
+[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
 [![Travis Build Status](https://travis-ci.org/virgesmith/humanleague.png?branch=master)](https://travis-ci.org/virgesmith/humanleague)
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/x9oypgryt21ndc3p?svg=true)](https://ci.appveyor.com/project/virgesmith/humanleague)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9cb56a2ff5f84817805d593823bee3e7)](https://app.codacy.com/app/virgesmith/humanleague?utm_source=github.com&utm_medium=referral&utm_content=virgesmith/humanleague&utm_campaign=Badge_Grade_Dashboard)
 [![codecov](https://codecov.io/gh/virgesmith/humanleague/branch/master/graph/badge.svg)](https://codecov.io/gh/virgesmith/humanleague)
-[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1116318.svg)](https://doi.org/10.5281/zenodo.1116318)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1970941.svg)](https://doi.org/10.5281/zenodo.1970941)
 [![status](https://joss.theoj.org/papers/d5aaf6e1c2efed431c506762622473b4/status.svg)](https://joss.theoj.org/papers/d5aaf6e1c2efed431c506762622473b4)
 
-> ## Latest news: 2.1.0 release
+[![PyPI version](https://badge.fury.io/py/humanleague.svg)](https://badge.fury.io/py/humanleague)
+[![Anaconda-Server Version Badge](https://anaconda.org/conda-forge/humanleague/badges/version.svg)](https://anaconda.org/conda-forge/humanleague)
+[![Anaconda-Server Downloads Badge](https://anaconda.org/conda-forge/humanleague/badges/downloads.svg)](https://anaconda.org/conda-forge/humanleague)
+
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/humanleague)](https://CRAN.R-project.org/package=humanleague)
+[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/grand-total/humanleague?color=black)](https://cran.r-project.org/package=humanleague)
+
+> ## Latest news: 2.1 release
+> - now available on [conda](https://conda.io/docs/index.html). 
 > - adds new functionality for multidimensional integerisation. 
-> - deletes previously deprecated functionality `synthPop` and `synthPopG`.
+> - removes previously deprecated functionality: `synthPop` and `synthPopG` functions.
 > ### Multidimensional integerisation
 > Building on the `prob2IntFreq` function - which takes a discrete probability distribution and a count, and returns the closest integer population to the distribution that sums to the count - a multidimensional equivalent `integerise` is introduced.
 > 
@@ -76,7 +83,7 @@ The latter provides a bridge between deterministic reweighting and combinatorial
 - generates high-entropy integral populations 
 - can be used to generate multiple populations for sensitivity analysis
 - goes some way to address the 'empty cells' issues that can occur in straight IPF
-- relatively fast compuation time
+- relatively fast computation time
 
 The algorithms: 
 - support arbitrary dimensionality* for both the marginals and the seed.
@@ -90,6 +97,23 @@ The package also contains the following utility functions:
 
 Version 1.0.1 reflects the work described in the [Quasirandom Integer Sampling (QIS)](http://jasss.soc.surrey.ac.uk/20/4/14.html) paper.
 
+## python installation
+Requires Python 3.5 or newer. 
+### PyPI
+```bash
+python3 -m pip install humanleague --user
+```
+### Anaconda
+```bash
+$ conda install -c conda-forge humanleague
+```
+### Build, install and test (from cloned repo)
+```bash
+$ ./setup.py install --user
+```
+```bash
+$ ./setup.py test
+```
 ## R installation
 Official release:
 ```
@@ -103,21 +127,7 @@ Or, for the legacy version
 ```bash
 > devtools::install_github("virgesmith/humanleague@1.0.1")
 ```
-## python installation
 
-Requires Python 3 and numpy. PyPI package:
-```bash
-python3 -m pip install humanleague --user
-```
-[Conda-forge package is being worked on]
-
-### Build, install and test (from local cloned repo)
-```bash
-$ ./setup.py install --user
-```
-```bash
-$ ./setup.py test
-```
 ### Examples
 
 Consult the package documentation, e.g.
