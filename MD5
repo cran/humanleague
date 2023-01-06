@@ -1,4 +1,4 @@
-959a0abecfe5d8b10896efb95a610a97 *DESCRIPTION
+a8acbd9f68b7fdaa59eaade05cc41bf2 *DESCRIPTION
 ddd1bda9837a1161899489467a736a73 *LICENCE
 45754cdc0cdedc8314d5aaa0476e7703 *NAMESPACE
 2f7ab2085a76fe483b4efa467bddc379 *R/RcppExports.R
@@ -19,7 +19,7 @@ c64fb7704d1a8f7ecd3dc366cde084c6 *src/Index.cpp
 ee72c758e63a43080dc17086007505a3 *src/Index.h
 ad66fe87e47c13312a22681fe0fc0bf2 *src/Integerise.cpp
 2eb6bef5ed47b4deea22cd59652e2c0c *src/Integerise.h
-cb2ea8cdc60d8c3b8f260ad2e52ab248 *src/Log.h
+66d4d368b98ac518c23e5cf833bb9a2b *src/Log.h
 b1d93a8de49df4d5955fcd1b526db565 *src/Makevars
 9638d61833a62c80726265ed1987d523 *src/Microsynthesis.h
 839910c83eed9747290113c555e7edc7 *src/NDArray.h
@@ -33,9 +33,9 @@ b1d93a8de49df4d5955fcd1b526db565 *src/Makevars
 4a9d30883d228e9ecb9ad673d04366f6 *src/Sobol.cpp
 c35c3c08326a8cbf314e69dbd6d6e970 *src/Sobol.h
 47785580614008667eef685fe30b750c *src/SobolData.h
-ec83700122628d034b9ec360b1cc5a30 *src/SobolImpl.cpp
+9e5c17d37056770f8f0a65f84b9504d7 *src/SobolImpl.cpp
 272581413ced04d96513722b340b40d5 *src/SobolImpl.h
-815c1939358af95ee0e934ed3dcaa989 *src/StatFuncs.cpp
+4f5a7b399be2cd01d08d90388f9a0a71 *src/StatFuncs.cpp
 156e4dca65743977cddaa8e55edff047 *src/StatFuncs.h
 30ca5865b9ecc9c885e825487c788d83 *src/TestIndex.cpp
 8551a25081bed59e018f238eac3e9848 *src/TestNDArray.cpp
@@ -45,8 +45,8 @@ f63351132f2227abf1caf034fda7ed24 *src/TestSobol.cpp
 42d970ea5aa324ad03ba99f7abb6b70e *src/TestStatFuncs.cpp
 38b8a8da43af0ab56c46535fe8b31242 *src/UnitTester.cpp
 07b6a4e03098d55c2e5339c09c47ee0c *src/UnitTester.h
-176984b3808ebc05594bbf60b4dd3447 *src/humanleague_init.c
-ced339efc7315c05155f02627ccff046 *src/module.cpp
+e19be325b07b5f43719b64c19c46b219 *src/humanleague_init.c
+fbbcbcc1acdb23e13ce5484a8a2c68ad *src/module.cpp
 3c158939abc00ecc008f375533424ac2 *src/rcpp_api.cpp
 f15c34cd515ae4af462c701615b8cf30 *tests/testthat.R
 eb035250144ab74709d5857202589ac8 *tests/testthat/test-all.R
